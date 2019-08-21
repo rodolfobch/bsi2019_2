@@ -15,7 +15,10 @@ public class Principal {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        
+        JanelaPrincipal p = new JanelaPrincipal();
+        p.setVisible(true);
+        
     }
     
 }
