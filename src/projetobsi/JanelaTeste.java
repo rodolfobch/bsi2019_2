@@ -10,6 +10,7 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
+import org.jdesktop.beansbinding.ELProperty;
 
 /**
  *
@@ -26,8 +27,8 @@ public class JanelaTeste extends javax.swing.JFrame {
         BindingGroup bg = new BindingGroup();
         Binding b;
         b = Bindings.createAutoBinding(
-                AutoBinding.UpdateStrategy.READ_WRITE,
-                slValor, BeanProperty.create("value"), //fonte
+                AutoBinding.UpdateStrategy.READ,
+                slValor, ELProperty.create("R$ ${value*10},00"), //fonte
                 txtValor, BeanProperty.create("text")); //target
         
         bg.addBinding(b);
@@ -48,6 +49,7 @@ public class JanelaTeste extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        txtValor.setEditable(false);
         txtValor.setText("jTextField1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

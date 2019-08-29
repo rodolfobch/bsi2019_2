@@ -5,11 +5,17 @@
  */
 package projetobsi;
 
+import java.util.LinkedList;
+import java.util.List;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
+import org.jdesktop.observablecollections.ObservableCollections;
+import org.jdesktop.swingbinding.JTableBinding;
+import org.jdesktop.swingbinding.JTableBinding.ColumnBinding;
+import org.jdesktop.swingbinding.SwingBindings;
 
 /**
  *
@@ -17,26 +23,40 @@ import org.jdesktop.beansbinding.Bindings;
  */
 public class JanelaCliente extends javax.swing.JInternalFrame {
 
-    private Cliente cliente;
+    private List<Cliente> lstClientes;
     
     /**
      * Creates new form JanelaCliente
      */
     public JanelaCliente() {
-        cliente = new Cliente();
+        lstClientes = new LinkedList<>();
+        lstClientes = ObservableCollections.observableList(lstClientes);
+        
         initComponents();
         
         BindingGroup bg = new BindingGroup();
-        Binding b;
+        JTableBinding tb = SwingBindings.createJTableBinding(
+                    AutoBinding.UpdateStrategy.READ_WRITE,
+                    lstClientes, tbCliente);
+        ColumnBinding cb = tb.addColumnBinding(BeanProperty.create("nome"));
+        cb.setColumnName("Nome do Cliente");
+        cb.setColumnClass(String.class);
         
+        cb = tb.addColumnBinding(BeanProperty.create("endereco"));
+        cb.setColumnName("Endereço");
+        cb.setColumnClass(String.class);
+        
+        bg.addBinding(tb);
+        
+        Binding b;
         b = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
-                cliente, BeanProperty.create("nome"), 
-                txtNome, BeanProperty.create("text"));
+                txtNome, BeanProperty.create("text"),
+                tbCliente, BeanProperty.create("selectedElement.nome"));
         bg.addBinding(b);
         
         b = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
-                cliente, BeanProperty.create("endereco"),
-                txtEndereco, BeanProperty.create("text"));
+                txtEndereco, BeanProperty.create("text"),
+                tbCliente, BeanProperty.create("selectedElement.endereco"));
         bg.addBinding(b);
 
         bg.bind();
@@ -57,7 +77,6 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
         txtEndereco = new javax.swing.JTextField();
         srcTbCliente = new javax.swing.JScrollPane();
         tbCliente = new javax.swing.JTable();
-        btMostrar = new javax.swing.JButton();
         btAdicionar = new javax.swing.JButton();
 
         setClosable(true);
@@ -99,14 +118,12 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
         ));
         srcTbCliente.setViewportView(tbCliente);
 
-        btMostrar.setText("Mostrar");
-        btMostrar.addActionListener(new java.awt.event.ActionListener() {
+        btAdicionar.setText("Adicionar");
+        btAdicionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btMostrarActionPerformed(evt);
+                btAdicionarActionPerformed(evt);
             }
         });
-
-        btAdicionar.setText("Adicionar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -125,8 +142,7 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
                             .addComponent(txtNome, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
                             .addComponent(txtEndereco)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btMostrar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btAdicionar)))
                 .addContainerGap())
         );
@@ -143,10 +159,8 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
                     .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(srcTbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btMostrar)
-                    .addComponent(btAdicionar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addComponent(btAdicionar)
                 .addContainerGap())
         );
 
@@ -161,17 +175,21 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_formInternalFrameClosing
 
-    private void btMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMostrarActionPerformed
+    private void btAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdicionarActionPerformed
         
-        System.out.printf("Nome: %s\n",cliente.getNome());
-        System.out.printf("Endereco: %s\n",cliente.getEndereco());
+        Cliente c = new Cliente();
+        if(tbCliente.getSelectedRows().length==0)
+        {
+            c.setNome(txtNome.getText());
+            c.setEndereco(txtEndereco.getText());
+        }
+        lstClientes.add(c);
         
-    }//GEN-LAST:event_btMostrarActionPerformed
+    }//GEN-LAST:event_btAdicionarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAdicionar;
-    private javax.swing.JButton btMostrar;
     private javax.swing.JLabel lblEndereco;
     private javax.swing.JLabel lblNome;
     private javax.swing.JScrollPane srcTbCliente;
