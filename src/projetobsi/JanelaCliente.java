@@ -5,6 +5,7 @@
  */
 package projetobsi;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import org.jdesktop.beansbinding.AutoBinding;
@@ -46,6 +47,10 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
         cb.setColumnName("Endereço");
         cb.setColumnClass(String.class);
         
+        cb = tb.addColumnBinding(BeanProperty.create("dataNasc"));
+        cb.setColumnName("Data Nasc.");
+        cb.setColumnClass(Date.class);
+        
         bg.addBinding(tb);
         
         Binding b;
@@ -59,6 +64,14 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
                 tbCliente, BeanProperty.create("selectedElement.endereco"));
         bg.addBinding(b);
 
+        b = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
+                txtDataNasc, BeanProperty.create("text"),
+                tbCliente, BeanProperty.create("selectedElement.dataNasc")
+            );
+        ConversorStringDate sd = new ConversorStringDate();
+        b.setConverter(sd);
+        bg.addBinding(b);
+        
         bg.bind();
     }
 
@@ -75,6 +88,8 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
         txtNome = new javax.swing.JTextField();
         lblEndereco = new javax.swing.JLabel();
         txtEndereco = new javax.swing.JTextField();
+        lblDataNasc = new javax.swing.JLabel();
+        txtDataNasc = new javax.swing.JTextField();
         srcTbCliente = new javax.swing.JScrollPane();
         tbCliente = new javax.swing.JTable();
         btAdicionar = new javax.swing.JButton();
@@ -105,6 +120,8 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
 
         lblEndereco.setText("Endereço:");
 
+        lblDataNasc.setText("Data Nasc:");
+
         tbCliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -134,16 +151,20 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(srcTbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btAdicionar))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(lblEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblNome, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE))
+                            .addComponent(lblDataNasc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+                            .addComponent(lblEndereco, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNome, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
-                            .addComponent(txtEndereco)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btAdicionar)))
+                            .addComponent(txtEndereco)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -158,8 +179,12 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
                     .addComponent(lblEndereco)
                     .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(srcTbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDataNasc)
+                    .addComponent(txtDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addComponent(srcTbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(btAdicionar)
                 .addContainerGap())
         );
@@ -190,10 +215,12 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAdicionar;
+    private javax.swing.JLabel lblDataNasc;
     private javax.swing.JLabel lblEndereco;
     private javax.swing.JLabel lblNome;
     private javax.swing.JScrollPane srcTbCliente;
     private javax.swing.JTable tbCliente;
+    private javax.swing.JTextField txtDataNasc;
     private javax.swing.JTextField txtEndereco;
     private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
