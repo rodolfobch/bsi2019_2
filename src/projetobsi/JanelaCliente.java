@@ -93,6 +93,7 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
         srcTbCliente = new javax.swing.JScrollPane();
         tbCliente = new javax.swing.JTable();
         btAdicionar = new javax.swing.JButton();
+        btExcluir = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -122,6 +123,7 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
 
         lblDataNasc.setText("Data Nasc:");
 
+        tbCliente.setAutoCreateRowSorter(true);
         tbCliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -142,6 +144,13 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
             }
         });
 
+        btExcluir.setText("Excluir");
+        btExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btExcluirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -152,6 +161,8 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
                     .addComponent(srcTbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btExcluir)
+                        .addGap(18, 18, 18)
                         .addComponent(btAdicionar))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -184,8 +195,10 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
                     .addComponent(txtDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addComponent(srcTbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                .addComponent(btAdicionar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btAdicionar)
+                    .addComponent(btExcluir))
                 .addContainerGap())
         );
 
@@ -212,9 +225,25 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_btAdicionarActionPerformed
 
+    private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
+        
+        int idx[] = tbCliente.getSelectedRows();
+        List<Cliente> apagar = new LinkedList<>();
+        tbCliente.getSelectionModel().setSelectionInterval(0,0);
+        for(int i=0;i<idx.length;i++){
+            int idxTab = idx[i];
+            int idxLista = tbCliente.convertRowIndexToModel(idxTab);
+            apagar.add(lstClientes.get(idxLista));
+        }
+        
+        lstClientes.removeAll(apagar);
+        
+    }//GEN-LAST:event_btExcluirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAdicionar;
+    private javax.swing.JButton btExcluir;
     private javax.swing.JLabel lblDataNasc;
     private javax.swing.JLabel lblEndereco;
     private javax.swing.JLabel lblNome;
