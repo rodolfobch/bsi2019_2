@@ -94,6 +94,7 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
         tbCliente = new javax.swing.JTable();
         btAdicionar = new javax.swing.JButton();
         btExcluir = new javax.swing.JButton();
+        btGravar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -151,6 +152,13 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
             }
         });
 
+        btGravar.setText("Gravar");
+        btGravar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btGravarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -160,7 +168,8 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(srcTbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btGravar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btExcluir)
                         .addGap(18, 18, 18)
                         .addComponent(btAdicionar))
@@ -198,7 +207,8 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btAdicionar)
-                    .addComponent(btExcluir))
+                    .addComponent(btExcluir)
+                    .addComponent(btGravar))
                 .addContainerGap())
         );
 
@@ -240,10 +250,23 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_btExcluirActionPerformed
 
+    private void btGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGravarActionPerformed
+        ClienteDAO cd = new ClienteDAO();
+        
+        for(Cliente c:lstClientes){
+            if(c.getId()==null)
+                cd.inserir(c);
+//            else
+//                cd.alterar(c);
+        }
+        
+    }//GEN-LAST:event_btGravarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAdicionar;
     private javax.swing.JButton btExcluir;
+    private javax.swing.JButton btGravar;
     private javax.swing.JLabel lblDataNasc;
     private javax.swing.JLabel lblEndereco;
     private javax.swing.JLabel lblNome;

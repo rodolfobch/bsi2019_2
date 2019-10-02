@@ -8,15 +8,21 @@ package projetobsi;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.List;
 
 /**
  *
  * @author Laboratorio
  */
-public class Conexao {
+public abstract class DAO<E> {
     protected Connection conn;
-    public Conexao(){
+
+    public abstract boolean inserir(E element);
+    public abstract boolean alterar(E element);
+    public abstract boolean excluir(E element);
+    public abstract List<E> listar();
+
+    public DAO(){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             
@@ -25,17 +31,6 @@ public class Conexao {
             String passwd = "";
             
             conn = DriverManager.getConnection(url, user, passwd);
-            
-/*
-            //TODO: colocar no lugar correto
-            String comando = "INSERT INTO cliente "
-                    + "(nome,endereco,datanasc) VALUES "
-                    + "('Joao','Rua X','2010-05-20')";
-            
-            Statement stmt = conn.createStatement();
-            int linhas = stmt.executeUpdate(comando);
-            System.out.printf("%d linhas atualizadas no banco\n",linhas);
-*/
         }catch(ClassNotFoundException e){
             System.out.printf("Erro no driver: %s\n",
                     e.getMessage());
@@ -43,10 +38,5 @@ public class Conexao {
             System.out.printf("Erro no banco: %s\n",
                     e.getMessage());
         }
-    }
-    
-    
-    public static void main(String args[]){
-        Conexao c = new Conexao();
     }
 }
