@@ -30,8 +30,8 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
      * Creates new form JanelaCliente
      */
     public JanelaCliente() {
-        lstClientes = new LinkedList<>();
-        lstClientes = ObservableCollections.observableList(lstClientes);
+        ClienteDAO cd = new ClienteDAO();
+        lstClientes = cd.listar();
         
         initComponents();
         
@@ -55,18 +55,18 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
         
         Binding b;
         b = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
-                txtNome, BeanProperty.create("text"),
-                tbCliente, BeanProperty.create("selectedElement.nome"));
+                tbCliente, BeanProperty.create("selectedElement.nome"),
+                txtNome, BeanProperty.create("text"));
         bg.addBinding(b);
         
         b = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
-                txtEndereco, BeanProperty.create("text"),
-                tbCliente, BeanProperty.create("selectedElement.endereco"));
+                tbCliente, BeanProperty.create("selectedElement.endereco"),
+                txtEndereco, BeanProperty.create("text"));
         bg.addBinding(b);
 
         b = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
-                txtDataNasc, BeanProperty.create("text"),
-                tbCliente, BeanProperty.create("selectedElement.dataNasc")
+                tbCliente, BeanProperty.create("selectedElement.dataNasc"),
+                txtDataNasc, BeanProperty.create("text")
             );
         ConversorStringDate sd = new ConversorStringDate();
         b.setConverter(sd);
