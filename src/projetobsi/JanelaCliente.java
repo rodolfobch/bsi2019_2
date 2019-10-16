@@ -68,7 +68,7 @@ public class JanelaCliente extends javax.swing.JInternalFrame {
                 tbCliente, BeanProperty.create("selectedElement.dataNasc"),
                 txtDataNasc, BeanProperty.create("text")
             );
-        ConversorStringDate sd = new ConversorStringDate();
+        ConversorDateString sd = new ConversorDateString();
         b.setConverter(sd);
         bg.addBinding(b);
         

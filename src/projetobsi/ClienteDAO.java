@@ -24,14 +24,15 @@ public class ClienteDAO extends DAO<Cliente>{
 
         try{
             String comando = "INSERT INTO cliente "
-                    + "(nome,endereco) VALUES "
-                    + "(?,?);";
+                    + "(nome,endereco,datanasc) VALUES "
+                    + "(?,?,?);";
             
             PreparedStatement stmt = conn.prepareStatement(
                                 comando,Statement.RETURN_GENERATED_KEYS);
             
             stmt.setString(1, element.getNome());
             stmt.setString(2, element.getEndereco());
+            stmt.setDate(3, element.getDataNasc());
             
             int linhas = stmt.executeUpdate();
             if(linhas==1) {
@@ -70,6 +71,7 @@ public class ClienteDAO extends DAO<Cliente>{
                 c.setId(rs.getInt("id"));
                 c.setNome(rs.getString("nome"));
                 c.setEndereco(rs.getString("endereco"));
+                c.setDataNasc(rs.getDate("datanasc"));
                 lstClientes.add(c);
             }
             
